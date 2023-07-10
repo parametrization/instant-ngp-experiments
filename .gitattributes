@@ -1,1 +1,26 @@
 /notebooks/* linguist-vendored
+*.mov filter=lfs diff=lfs merge=lfs -text
+*.png filter=lfs diff=lfs merge=lfs -text
+*.pdf filter=lfs diff=lfs merge=lfs -text
+*.mp3 filter=lfs diff=lfs merge=lfs -text
+*.psd filter=lfs diff=lfs merge=lfs -text
+/data/image/albert.exr filter=lfs diff=lfs merge=lfs -text
+/data/sdf/armadillo.obj filter=lfs diff=lfs merge=lfs -text
+/docs/assets_readme/fox.gif filter=lfs diff=lfs merge=lfs -text
+/docs/assets_readme/robot5.gif filter=lfs diff=lfs merge=lfs -text
+/docs/assets_readme/testbed.png filter=lfs diff=lfs merge=lfs -text
+/docs/assets/cloud_training.mp4 filter=lfs diff=lfs merge=lfs -text
+/docs/assets/modsynth.mp4 filter=lfs diff=lfs merge=lfs -text
+/docs/assets/nerf_grid_lq.mp4 filter=lfs diff=lfs merge=lfs -text
+/docs/assets/nrc_hashgrid.mp4 filter=lfs diff=lfs merge=lfs -text
+/docs/assets/nrc_new_vs_old.mp4 filter=lfs diff=lfs merge=lfs -text
+/docs/assets/nrc_trianglewave.mp4 filter=lfs diff=lfs merge=lfs -text
+/docs/assets/robot.mp4 filter=lfs diff=lfs merge=lfs -text
+/docs/assets/sdf_grid_lq.mp4 filter=lfs diff=lfs merge=lfs -text
+/docs/assets/teaser.mp4 filter=lfs diff=lfs merge=lfs -text
+/docs/assets/tokyo_online_training.mp4 filter=lfs diff=lfs merge=lfs -text
+/docs/assets/tokyo_online_training_counter.mp4 filter=lfs diff=lfs merge=lfs -text
+/docs/assets/mueller2022instant.mp4 filter=lfs diff=lfs merge=lfs -text
+/docs/assets/mueller2022instant.pdf filter=lfs diff=lfs merge=lfs -text
+/notebooks/instant_ngp.ipynb filter=lfs diff=lfs merge=lfs -text
+/data/raw/desk_setup/IMG_0174.MOV filter=lfs diff=lfs merge=lfs -text
