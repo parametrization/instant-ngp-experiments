@@ -27,6 +27,7 @@ SCRIPTS_FOLDER = os.path.join(ROOT_DIR, "scripts")
 def parse_args():
 	parser = argparse.ArgumentParser(description="Convert a text colmap export to nerf format transforms.json; optionally convert video to images, and optionally run colmap in the first place.")
 
+	parser.add_argument("--easy_mode", default=[], help="For when you just want all generated files for a video capture in the same folder as the video with a functional transforms.json.  Relative or absolute paths are fine. ")
 	parser.add_argument("--video_in", default="", help="Run ffmpeg first to convert a provided video file into a set of images. Uses the video_fps parameter also.")
 	parser.add_argument("--video_fps", default=2)
 	parser.add_argument("--time_slice", default="", help="Time (in seconds) in the format t1,t2 within which the images should be generated from the video. E.g.: \"--time_slice '10,300'\" will generate images only from 10th second to 300th second of the video.")
@@ -192,6 +193,32 @@ def closest_point_2_lines(oa, da, ob, db): # returns point closest to both rays 
 
 if __name__ == "__main__":
 	args = parse_args()
+	if args.easy_mode:
+		
+		args.run_colmap = "True"
+		args.overwrite = "True"
+		args.aabb_scale = "32"
+		args.video_fps = "2"
+		args.overwrite = "True"
+
+		args.video_in = args.easy_mode
+		p = str(Path(args.easy_mode).parent)
+		f = str(Path(args.easy_mode).stem)
+		
+		project_root = p + "\\" + f + "_data\\"
+		args.colmap_db = project_root + "colmap.db" 
+		args.out = project_root + "transforms.json"
+		args.text = project_root + "colmap_text"
+		args.images = project_root + "images"
+	
+		print (f"root path is {p}")
+		print (f"filename is {f}")
+		print (f"colmap_db is {args.colmap_db}")
+		print (f"json file is {args.out}")
+		print (f"args overwrite: {args.overwrite}")
+		
+		#exit()
+		
 	if args.video_in != "":
 		run_ffmpeg(args)
 	if args.run_colmap:
@@ -329,16 +356,6 @@ if __name__ == "__main__":
 				#name = str(PurePosixPath(Path(IMAGE_FOLDER, elems[9])))
 				# why is this requireing a relitive path while using ^
 				image_rel = os.path.relpath(IMAGE_FOLDER)
-				# this really needs to be relative to OUT_PATH (where the transformer.json lives)
-				# if OUT_PATH
-				print('HEREARETHEPATHSHEREARETHEPATHSHEREARETHEPATHSHEREARETHEPATHS')
-				print('HEREARETHEPATHSHEREARETHEPATHSHEREARETHEPATHSHEREARETHEPATHS')
-				print('HEREARETHEPATHSHEREARETHEPATHSHEREARETHEPATHSHEREARETHEPATHS')
-				print('HEREARETHEPATHSHEREARETHEPATHSHEREARETHEPATHSHEREARETHEPATHS')
-				print('HEREARETHEPATHSHEREARETHEPATHSHEREARETHEPATHSHEREARETHEPATHS')
-				#path_to_image_folder = IMAGE_FOLDER.strip('\\images')
-				#path_to_transforms_folder = os.path.OUT_PATH
-				#os.path.commonpath(IMAGE_FOLDER, OUT_PATH)
 
 				json_path = Path(OUT_PATH).parent
 				image_path = Path(IMAGE_FOLDER)
@@ -350,15 +367,11 @@ if __name__ == "__main__":
 
 				except ValueError as ve:
 					print(f'No common paths for {json_path} and {image_path}')
-					img_name_prefix = str(f"./{image_rel}/")
-
-				#{'data\\raw\\desk_setup\\images'}
-				#{'data\\raw\\desk_setup\\transforms.json'}
+					img_name_prefix = str(f"./{image_rel}")
 				
+				#sharpness requires pathing differently than the way we will write to the json file
 				sharpness_name = str(f"./{image_rel}/{'_'.join(elems[9:])}")
 
-				print({json_path})
-				print({image_path})
 				name = str(f"{img_name_prefix}/{'_'.join(elems[9:])}")
 				print(f'Name is now: {name}')
 				print(f'sharpness name is now {sharpness_name}')
