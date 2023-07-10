@@ -329,8 +329,40 @@ if __name__ == "__main__":
 				#name = str(PurePosixPath(Path(IMAGE_FOLDER, elems[9])))
 				# why is this requireing a relitive path while using ^
 				image_rel = os.path.relpath(IMAGE_FOLDER)
-				name = str(f"./{image_rel}/{'_'.join(elems[9:])}")
-				b = sharpness(name)
+				# this really needs to be relative to OUT_PATH (where the transformer.json lives)
+				# if OUT_PATH
+				print('HEREARETHEPATHSHEREARETHEPATHSHEREARETHEPATHSHEREARETHEPATHS')
+				print('HEREARETHEPATHSHEREARETHEPATHSHEREARETHEPATHSHEREARETHEPATHS')
+				print('HEREARETHEPATHSHEREARETHEPATHSHEREARETHEPATHSHEREARETHEPATHS')
+				print('HEREARETHEPATHSHEREARETHEPATHSHEREARETHEPATHSHEREARETHEPATHS')
+				print('HEREARETHEPATHSHEREARETHEPATHSHEREARETHEPATHSHEREARETHEPATHS')
+				#path_to_image_folder = IMAGE_FOLDER.strip('\\images')
+				#path_to_transforms_folder = os.path.OUT_PATH
+				#os.path.commonpath(IMAGE_FOLDER, OUT_PATH)
+
+				json_path = Path(OUT_PATH).parent
+				image_path = Path(IMAGE_FOLDER)
+				img_name_prefix = ''
+				
+				try:
+					img_name_prefix = str(image_path.relative_to(json_path)).join(['./images'])
+					print(f"image name prefix is now: {img_name_prefix}")
+
+				except ValueError as ve:
+					print(f'No common paths for {json_path} and {image_path}')
+					img_name_prefix = str(f"./{image_rel}/")
+
+				#{'data\\raw\\desk_setup\\images'}
+				#{'data\\raw\\desk_setup\\transforms.json'}
+				
+				sharpness_name = str(f"./{image_rel}/{'_'.join(elems[9:])}")
+
+				print({json_path})
+				print({image_path})
+				name = str(f"{img_name_prefix}/{'_'.join(elems[9:])}")
+				print(f'Name is now: {name}')
+				print(f'sharpness name is now {sharpness_name}')
+				b = sharpness(sharpness_name)
 				print(name, "sharpness=",b)
 				image_id = int(elems[0])
 				qvec = np.array(tuple(map(float, elems[1:5])))
@@ -348,6 +380,7 @@ if __name__ == "__main__":
 					up += c2w[0:3,1]
 
 				frame = {"file_path":name,"sharpness":b,"transform_matrix": c2w}
+				#frame = {"file_path":name,"sharpness":b,"transform_matrix": c2w}
 				if len(cameras) != 1:
 					frame.update(cameras[int(elems[8])])
 				out["frames"].append(frame)
