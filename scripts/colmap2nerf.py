@@ -70,8 +70,9 @@ def run_ffmpeg(args):
 		if candidates:
 			ffmpeg_binary = candidates[0]
 
-	if not os.path.isabs(args.images):
-		args.images = os.path.join(os.path.dirname(args.video_in), args.images)
+	#this does not work in my scenarios, it just doubles the path
+	#if not os.path.isabs(args.images):
+	#args.images = os.path.join(os.path.dirname(args.video_in), args.images)
 
 	images = "\"" + args.images + "\""
 	video =  "\"" + args.video_in + "\""
@@ -197,9 +198,6 @@ if __name__ == "__main__":
 		
 		args.run_colmap = "True"
 		args.overwrite = "True"
-		args.aabb_scale = "32"
-		args.video_fps = "2"
-		args.overwrite = "True"
 
 		args.video_in = args.easy_mode
 		p = str(Path(args.easy_mode).parent)
@@ -209,18 +207,11 @@ if __name__ == "__main__":
 		args.colmap_db = project_root + "colmap.db" 
 		args.out = project_root + "transforms.json"
 		args.text = project_root + "colmap_text"
-		args.images = project_root + "images"
-	
-		print (f"root path is {p}")
-		print (f"filename is {f}")
-		print (f"colmap_db is {args.colmap_db}")
-		print (f"json file is {args.out}")
-		print (f"args overwrite: {args.overwrite}")
-		
-		#exit()
+		args.images = project_root +  "images"
 		
 	if args.video_in != "":
 		run_ffmpeg(args)
+
 	if args.run_colmap:
 		run_colmap(args)
 	AABB_SCALE = int(args.aabb_scale)
